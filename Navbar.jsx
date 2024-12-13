@@ -16,11 +16,11 @@ const Navbar = () => {
           <Link to='/add' style={{ textDecoration: 'none' }}>
             <Button variant='contained'>Add</Button>
           </Link>
+          <Link to='/camp' style={{ textDecoration: 'none' }}>
+            <Button variant='contained'>Campagin</Button>
+          </Link>
           <Link to='/info' style={{ textDecoration: 'none' }}>
             <Button variant='contained'>Info</Button>
-          </Link>
-          <Link to='/camp' style={{ textDecoration: 'none' }}>
-            <Button variant='contained'>Campaign</Button>
           </Link>
         </Toolbar>    
       </AppBar>
