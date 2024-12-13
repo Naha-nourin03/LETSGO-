@@ -9,6 +9,7 @@ import Home from './components/Home'
 import AddSp from './components/AddSp'
 import Info from './components/Info'
 import Camp from './components/Camp'
+import Navbar from './components/Navbar'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -26,6 +27,9 @@ function App() {
      <Route path="/camp" element={<Camp />} />
      </Routes>
      </div>
+     <p  className="read-the-docs">
+    
+     </p>
     </>
   )
 }
