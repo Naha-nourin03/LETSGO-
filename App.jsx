@@ -5,6 +5,10 @@ import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import Login from './components/Login'
 import Signup from './components/Signup'
+import Home from './components/Home'
+import AddSp from './components/AddSp'
+import Info from './components/Info'
+import Camp from './components/Camp'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -21,9 +25,6 @@ function App() {
      <Route path="/camp" element={<Camp />} />
      </Routes>
      </div>
-     <p  className="read-the-docs">
-     Click on the Vite and React logos to learn more
-     </p>
     </>
   )
 }
