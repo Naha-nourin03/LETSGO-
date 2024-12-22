@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
 import Lottie from 'react-lottie';
 import { useNavigate } from 'react-router-dom';
-import splashAnimation from '../assets/1.json'; // Correct the relative path
-// import './SplashScreen.css';
+import splashAnimation from '../assets/2.json'; // Correct the relative path
 
 function SplashScreen() {
   const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate('/home');  // Redirect to home after 3 seconds
-    }, 3000);  // Adjust duration as needed
+      navigate('/home'); // Redirect to home after 3 seconds
+    }, 3000); // Adjust duration as needed
     return () => clearTimeout(timer);
   }, [navigate]);
 
@@ -25,10 +24,13 @@ function SplashScreen() {
 
   return (
     <div className="splash-screen">
-      <Lottie options={defaultOptions} height={400} width={400} />
-     
+      <div className="lottie-container">
+        <Lottie options={defaultOptions} />
+      </div>
     </div>
   );
 }
 
 export default SplashScreen;
+
+
