@@ -1,7 +1,11 @@
+// Note:This Is To Be Installed In Terminal
+// npm install @mui/icons-material
+
 import React from 'react';
 import { AppBar, Toolbar, IconButton, Box, Typography } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+// Importing Material-UI icons
+import HomeRounded from '@mui/icons-material/HomeRounded';
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
 import CampaignOutlined from '@mui/icons-material/CampaignOutlined';
 import InfoOutlined from '@mui/icons-material/InfoOutlined';
@@ -57,7 +61,7 @@ const Navbar = () => {
                 },
               }}
             >
-              <HomeRoundedIcon fontSize="small" /> {/* Slightly smaller icon */}
+              <HomeRounded fontSize="small" /> {/* Slightly smaller icon */}
             </IconButton>
             {isActive('/home') && (
               <Typography
