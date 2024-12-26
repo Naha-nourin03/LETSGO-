@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
 import { Button, Grid, TextField, Typography, Box } from '@mui/material';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Camp = () => {
+  
+  var navigate = useNavigate()
+  var [inputs, setInputs] = useState({ campaign: "",
+    Description: "",
+    link: "",
+    Location: "",
+    Group: "",
+    Date: "",
+    Duration: "",
+    volunteers: "",    
+    Requirements: "",
+    Name: "",
+    Phone: ""});
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  const [selectedType, setSelectedType] = useState("");
-
-  const handleSelect = (event) => {
-    setSelectedType(event.target.value);
-    console.log("Selected Type:", event.target.value);
-  };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -21,6 +30,22 @@ const Camp = () => {
     }
   };
 
+  const inputHandler =(e)=>{
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+    console.log(inputs)
+  }  
+  const addhandler = () => {
+    console.log("clicked");
+        axios.post("http://localhost:4007/madd", inputs)
+        .then((res) => {
+          alert(res.data.message)
+          navigate("/camp")
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+  }
+ 
   return (
     <Box
       sx={{
@@ -50,26 +75,24 @@ const Camp = () => {
         >
           General Information
         </Typography>
-        <TextField label="Title of Campaign" variant="outlined" name="campaign" fullWidth margin="normal" />
-        <TextField label="Description" variant="outlined" name="Description" multiline rows={4} fullWidth margin="normal" />
-        <TextField label="Link" variant="outlined" name="Link" type="link" fullWidth margin="normal" />
-        <TextField label="City/State/Country" variant="outlined" name="Location" fullWidth margin="normal" />
-        <TextField label="Name of Organization/Individual" variant="outlined" name="Group" fullWidth margin="normal" />
+        <TextField label="Title of Campaign" variant="outlined" name="campaign" onChange={inputHandler} fullWidth margin="normal" />
+        <TextField label="Description" variant="outlined" name="Description" onChange={inputHandler} multiline rows={4} fullWidth margin="normal" />
+        <TextField label="Link" variant="outlined" name="Link" type="link" onChange={inputHandler} fullWidth margin="normal" />
+        <TextField label="City/State/Country" variant="outlined" name="Location" onChange={inputHandler} fullWidth margin="normal" />
+        <TextField label="Name of Organization/Individual" variant="outlined" onChange={inputHandler} name="Group" fullWidth margin="normal" />
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <TextField label="Date" variant="outlined" name="Date" type="date" fullWidth margin="normal" InputLabelProps={{ shrink: true }} />
+            <TextField label="Date" variant="outlined" name="Date" type='date'  onChange={inputHandler} fullWidth margin="normal" InputLabelProps={{ shrink: true }} />
           </Grid>
           <Grid item xs={6}>
-          <TextField label="Time" variant="outlined" name="Time" type="time" fullWidth margin="normal" InputLabelProps={{ shrink: true }} />
-
+          <TextField label="Time" variant="outlined" name="Time" onChange={inputHandler} fullWidth margin="normal" InputLabelProps={{ shrink: true }} />
           </Grid>
         </Grid>
-        <TextField label="Duration" variant="outlined" name="Duration" fullWidth margin="normal" />
-        <TextField label="Number of Volunteers Needed" variant="outlined" name="volunteers" fullWidth margin="normal" />
-        <TextField label="Requirements" variant="outlined" name="Requirements" fullWidth margin="normal" />
+        <TextField label="Duration" variant="outlined" name="Duration" onChange={inputHandler} fullWidth margin="normal" />
+        <TextField label="Number of Volunteers Needed" variant="outlined" onChange={inputHandler} name="volunteers" fullWidth margin="normal" />
+        <TextField label="Requirements" variant="outlined" name="Requirements" onChange={inputHandler} fullWidth margin="normal" />
       </section>
 
-     
       <section style={{ marginBottom: '40px' }}>
         <Typography
           variant="h5"
@@ -78,9 +101,9 @@ const Camp = () => {
         >
           Contact Information
         </Typography>
-        <TextField label="Name" variant="outlined" name="Name" fullWidth margin="normal" />
-        <TextField label="Phone Number" variant="outlined" name="Phone" fullWidth margin="normal" />
-        <TextField label="Email" variant="outlined" name="email" fullWidth margin="normal" />
+        <TextField label="Name" variant="outlined" name="Name" onChange={inputHandler} fullWidth margin="normal" />
+        <TextField label="Phone Number" variant="outlined" name="Phone" onChange={inputHandler} fullWidth margin="normal" />
+        <TextField label="Email" variant="outlined" name="email" onChange={inputHandler} fullWidth margin="normal" />
       </section>
 
       <section style={{ marginBottom: '20px' }}>
@@ -132,6 +155,7 @@ const Camp = () => {
           type="submit"
           variant="contained"
           size="large"
+          onClick={addhandler}
           sx={{ padding: '10px 30px', backgroundColor: '#1976d2', color: '#fff' }}
         >
           Submit
