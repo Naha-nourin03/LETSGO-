@@ -69,50 +69,7 @@ const Camp = () => {
         <TextField label="Requirements" variant="outlined" name="Requirements" fullWidth margin="normal" />
       </section>
 
-      <section style={{ marginBottom: '40px', textAlign: 'center' }}>
-        <Typography
-          variant="h5"
-          gutterBottom
-          sx={{ fontWeight: 'bold', color: '#1976d2', marginBottom: '20px' }}
-        >
-          Campaign Type
-        </Typography>
-        <label
-          htmlFor="campaign-type"
-          style={{ marginRight: '10px', fontWeight: 'bold' }}
-        >
-          Select Campaign Type:
-        </label>
-        <select
-          id="campaign-type"
-          value={selectedType}
-          onChange={handleSelect}
-          style={{
-            padding: '10px',
-            fontSize: '16px',
-            borderRadius: '4px',
-            border: '1px solid #ccc',
-            marginBottom: '20px',
-          }}
-        >
-          <option value="" disabled>
-            -- Choose an option --
-          </option>
-          <option value="individual">Individual</option>
-          <option value="organization">Organization</option>
-        </select>
-
-        {selectedType && (
-          <Typography
-            variant="body1"
-            color="textSecondary"
-            sx={{ marginTop: '10px' }}
-          >
-            You selected: <strong>{selectedType}</strong>
-          </Typography>
-        )}
-      </section>
-
+     
       <section style={{ marginBottom: '40px' }}>
         <Typography
           variant="h5"
