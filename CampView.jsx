@@ -10,11 +10,19 @@ import {
     Fab,
   } from '@mui/material';
   import AddIcon from '@mui/icons-material/Add';
-  import React from 'react';
+  import React, { useState } from 'react';
   import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
   
   const CampView = () => {
-    const navigate = useNavigate();
+    var[user,setuser]=useState([])
+    var navigate = useNavigate()
+    axios.get("http://localhost:4007/view")
+        .then((res) => {
+        console.log(res)
+        setuser(res.data)
+      })
+      .catch((err) => console.log(err));
   
     return (
       <div>
@@ -80,34 +88,23 @@ import {
                 <TableCell>Organization/Individual</TableCell>
                 <TableCell>Date</TableCell>
                 <TableCell>City</TableCell>
+
               </TableRow>
             </TableHead>
             <TableBody>
-              {[...Array(5)].map((_, i) => (
-                <TableRow
-                  key={i}
-                  sx={{
-                    '&:nth-of-type(odd)': { backgroundColor: '#f9f9f9' },
-                    '&:nth-of-type(even)': { backgroundColor: '#fff' },
-                    '&:hover': { backgroundColor: '#e8f5e9' }, // Light green hover effect
-                    '& td': {
-                      fontSize: '16px',
-                      textAlign: 'center',
-                      padding: '16px',
-                    },
-                  }}
-                >
-                  <TableCell>Campaign {i + 1}</TableCell>
-                  <TableCell>
-                    A detailed description for Campaign {i + 1}, highlighting key
-                    features and goals.
-                  </TableCell>
-                  <TableCell>Organization {i + 1}</TableCell>
-                  <TableCell>2024-12-31</TableCell>
-                  <TableCell>City {i + 1}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
+                 {user.map((val,i) => {
+                      return (
+               <TableRow>
+                <TableCell>{val.campaign}</TableCell>
+                <TableCell>{val.Description}</TableCell>
+                <TableCell>{val.Group}</TableCell>
+                <TableCell>{val.Date}</TableCell>
+                <TableCell>{val.Location} </TableCell>
+                {/* <TableCell>{val.JobType} </TableCell> */}
+               </TableRow>
+                 )
+                })}
+               </TableBody>
           </Table>
         </TableContainer>
       </div>
