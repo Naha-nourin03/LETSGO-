@@ -9,6 +9,7 @@ import Info from './components/Info';
 import Camp from './components/Camp';
 import Navbar from './components/Navbar';
 import './App.css';
+import CampView from './components/CampView';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -34,7 +35,8 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/add" element={<AddSp />} />
             <Route path="/info" element={<Info />} />
-            <Route path="/camp" element={<Camp />} />
+            <Route path="/camp" element={<CampView />} />
+            <Route path="/campadd" element={<Camp />} />
           </Routes>
         </>
       )}
