@@ -77,8 +77,8 @@ const Camp = () => {
         </Typography>
         <TextField label="Title of Campaign" variant="outlined" name="campaign" onChange={inputHandler} fullWidth margin="normal" />
         <TextField label="Description" variant="outlined" name="Description" onChange={inputHandler} multiline rows={4} fullWidth margin="normal" />
-        <TextField label="Link" variant="outlined" name="Link" type="link" onChange={inputHandler} fullWidth margin="normal" />
-        <TextField label="City/State/Country" variant="outlined" name="Location" onChange={inputHandler} fullWidth margin="normal" />
+        <TextField label="Link" variant="outlined" name="link"  onChange={inputHandler} fullWidth margin="normal" />
+        <TextField label="City/District/State" variant="outlined" name="Location" onChange={inputHandler} fullWidth margin="normal" />
         <TextField label="Name of Organization/Individual" variant="outlined" onChange={inputHandler} name="Group" fullWidth margin="normal" />
         <Grid container spacing={2}>
           <Grid item xs={6}>
