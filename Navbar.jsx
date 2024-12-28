@@ -1,11 +1,7 @@
-// Note:This Is To Be Installed In Terminal
-// npm install @mui/icons-material
-
 import React from 'react';
 import { AppBar, Toolbar, IconButton, Box, Typography } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
-// Importing Material-UI icons
-import HomeRounded from '@mui/icons-material/HomeRounded';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
 import CampaignOutlined from '@mui/icons-material/CampaignOutlined';
 import InfoOutlined from '@mui/icons-material/InfoOutlined';
@@ -22,9 +18,9 @@ const Navbar = () => {
       sx={{
         top: 'auto',
         bottom: 0,
-        backgroundColor: '#fff', // Light background color
-        boxShadow: '0px -1px 5px rgba(0,0,0,0.1)', // Subtle shadow
-        padding: '6px 0', // Reduced overall padding
+        background: 'white',
+        boxShadow: 'none', // Clean look
+        padding: '6px 0',
       }}
     >
       <Toolbar
@@ -32,7 +28,7 @@ const Navbar = () => {
           display: 'flex',
           justifyContent: 'space-around',
           alignItems: 'center',
-          height: '70px', // Slightly smaller toolbar height
+          height: '70px',
         }}
       >
         {/* Home Button */}
@@ -42,32 +38,31 @@ const Navbar = () => {
               display: 'flex',
               flexDirection: isActive('/home') ? 'row' : 'column',
               alignItems: 'center',
-              backgroundColor: isActive('/home') ? '#000' : 'transparent',
+              backgroundColor: isActive('/home') ? 'green' : 'transparent',
               color: isActive('/home') ? '#fff' : '#000',
-              padding: isActive('/home') ? '4px 12px' : '0', // Reduced padding for the active button
-              borderRadius: isActive('/home') ? '20px' : '50%',
+              padding: isActive('/home') ?'21px 20px' : '0', // Increased padding for larger shape
+              borderRadius: isActive('/home') ? '7px' : '80%', // Slightly larger border radius
               transition: 'all 0.3s ease',
             }}
           >
             <IconButton
+              disableRipple
               sx={{
-                backgroundColor: isActive('/home') ? 'transparent' : '#f0f0f0',
+                backgroundColor: 'transparent',
                 color: isActive('/home') ? '#fff' : '#000',
-                width: isActive('/home') ? 'auto' : '50px', // Reduced size of icon buttons
-                height: '50px',
-                borderRadius: '50%',
+                padding: '0',
                 '&:hover': {
-                  backgroundColor: isActive('/home') ? 'transparent' : '#ddd',
+                  backgroundColor: isActive('/home') ? 'darkgreen' : 'rgba(0, 0, 0, 0.1)',
                 },
               }}
             >
-              <HomeRounded fontSize="small" /> {/* Slightly smaller icon */}
+              <HomeRoundedIcon fontSize="small" />
             </IconButton>
             {isActive('/home') && (
               <Typography
                 sx={{
-                  marginLeft: '8px', // Smaller margin for label
-                  fontSize: '12px', // Slightly smaller font size for label
+                  marginLeft: '8px',
+                  fontSize: '12px',
                   color: '#fff',
                 }}
               >
@@ -79,37 +74,36 @@ const Navbar = () => {
 
         {/* Add Button */}
         <Link to="/add" style={{ textDecoration: 'none' }}>
-          <Box
+        <Box
             sx={{
               display: 'flex',
               flexDirection: isActive('/add') ? 'row' : 'column',
               alignItems: 'center',
-              backgroundColor: isActive('/add') ? '#000' : 'transparent',
+              backgroundColor: isActive('/add') ? 'green' : 'transparent',
               color: isActive('/add') ? '#fff' : '#000',
-              padding: isActive('/add') ? '4px 12px' : '0', // Reduced padding for the active button
-              borderRadius: isActive('/add') ? '20px' : '50%',
+              padding: isActive('/add') ?'21px 20px' : '0', // Increased padding for larger shape
+              borderRadius: isActive('/add') ? '7px' : '80%', // Slightly larger border radius
               transition: 'all 0.3s ease',
             }}
           >
             <IconButton
+              disableRipple
               sx={{
-                backgroundColor: isActive('/add') ? 'transparent' : '#f0f0f0',
+                backgroundColor: 'transparent',
                 color: isActive('/add') ? '#fff' : '#000',
-                width: isActive('/add') ? 'auto' : '50px', // Reduced size of icon buttons
-                height: '50px',
-                borderRadius: '50%',
+                padding: '0',
                 '&:hover': {
-                  backgroundColor: isActive('/add') ? 'transparent' : '#ddd',
+                  backgroundColor: isActive('/add') ? 'darkgreen' : 'rgba(0, 0, 0, 0.1)',
                 },
               }}
             >
-              <AddCircleOutline fontSize="small" /> {/* Slightly smaller icon */}
+              <AddCircleOutline fontSize="small" />
             </IconButton>
             {isActive('/add') && (
               <Typography
                 sx={{
-                  marginLeft: '8px', // Smaller margin for label
-                  fontSize: '12px', // Slightly smaller font size for label
+                  marginLeft: '8px',
+                  fontSize: '12px',
                   color: '#fff',
                 }}
               >
@@ -126,32 +120,31 @@ const Navbar = () => {
               display: 'flex',
               flexDirection: isActive('/camp') ? 'row' : 'column',
               alignItems: 'center',
-              backgroundColor: isActive('/camp') ? '#000' : 'transparent',
+              backgroundColor: isActive('/camp') ? 'green' : 'transparent',
               color: isActive('/camp') ? '#fff' : '#000',
-              padding: isActive('/camp') ? '4px 12px' : '0', // Reduced padding for the active button
-              borderRadius: isActive('/camp') ? '20px' : '50%',
+              padding: isActive('/camp') ?'21px 20px' : '0',
+              borderRadius: isActive('/camp') ? '7px' : '80%',
               transition: 'all 0.3s ease',
             }}
           >
             <IconButton
+              disableRipple
               sx={{
-                backgroundColor: isActive('/camp') ? 'transparent' : '#f0f0f0',
+                backgroundColor: 'transparent',
                 color: isActive('/camp') ? '#fff' : '#000',
-                width: isActive('/camp') ? 'auto' : '50px', // Reduced size of icon buttons
-                height: '50px',
-                borderRadius: '50%',
+                padding: '0',
                 '&:hover': {
-                  backgroundColor: isActive('/camp') ? 'transparent' : '#ddd',
+                  backgroundColor: isActive('/camp') ? 'darkgreen' : 'rgba(0, 0, 0, 0.1)',
                 },
               }}
             >
-              <CampaignOutlined fontSize="small" /> {/* Slightly smaller icon */}
+              <CampaignOutlined fontSize="small" />
             </IconButton>
             {isActive('/camp') && (
               <Typography
                 sx={{
-                  marginLeft: '8px', // Smaller margin for label
-                  fontSize: '12px', // Slightly smaller font size for label
+                  marginLeft: '8px',
+                  fontSize: '12px',
                   color: '#fff',
                 }}
               >
@@ -168,32 +161,31 @@ const Navbar = () => {
               display: 'flex',
               flexDirection: isActive('/info') ? 'row' : 'column',
               alignItems: 'center',
-              backgroundColor: isActive('/info') ? '#000' : 'transparent',
+              backgroundColor: isActive('/info') ? 'green' : 'transparent',
               color: isActive('/info') ? '#fff' : '#000',
-              padding: isActive('/info') ? '4px 12px' : '0', // Reduced padding for the active button
-              borderRadius: isActive('/info') ? '20px' : '50%',
+             padding: isActive('/info') ?'21px 20px' : '0',
+             borderRadius: isActive('/info') ? '7px' : '80%',
               transition: 'all 0.3s ease',
             }}
           >
             <IconButton
+              disableRipple
               sx={{
-                backgroundColor: isActive('/info') ? 'transparent' : '#f0f0f0',
+                backgroundColor: 'transparent',
                 color: isActive('/info') ? '#fff' : '#000',
-                width: isActive('/info') ? 'auto' : '50px', // Reduced size of icon buttons
-                height: '50px',
-                borderRadius: '50%',
+                padding: '0',
                 '&:hover': {
-                  backgroundColor: isActive('/info') ? 'transparent' : '#ddd',
+                  backgroundColor: isActive('/info') ? 'darkgreen' : 'rgba(0, 0, 0, 0.1)',
                 },
               }}
             >
-              <InfoOutlined fontSize="small" /> {/* Slightly smaller icon */}
+              <InfoOutlined fontSize="small" />
             </IconButton>
             {isActive('/info') && (
               <Typography
                 sx={{
-                  marginLeft: '8px', // Smaller margin for label
-                  fontSize: '12px', // Slightly smaller font size for label
+                  marginLeft: '8px',
+                  fontSize: '12px',
                   color: '#fff',
                 }}
               >
