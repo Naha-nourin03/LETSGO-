@@ -99,7 +99,7 @@ const CampView = () => {
             >
               <TableCell>Campaign Name</TableCell>
               <TableCell>City</TableCell>
-              <TableCell>Link</TableCell>
+              <TableCell>know more</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
