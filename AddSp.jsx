@@ -1,275 +1,210 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
+  Typography,
   TextField,
+  MenuItem,
   Button,
   Box,
-  Typography,
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
   Grid,
-  Slider,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-} from '@mui/material';
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const AddSp = () => {
-  const [image, setImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-  const [adventureLevel, setAdventureLevel] = useState(5);
-  const [familyFriendly, setFamilyFriendly] = useState(5);
-  const [riskLevel, setRiskLevel] = useState(5);
-  const [bestTime, setBestTime] = useState('');
+const AddPlace = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const navigate = useNavigate();
 
-  const handleImageChange = (event) => {
+  const [formData, setFormData] = useState({
+    Place_Name: "",
+    Place_Type: "",
+    Place_Link: "",
+    Place_Description: "",
+    Adventure_Level: "",
+    Family_Friendly: "",
+    Risk_Level: "",
+    Best_Time: "",
+    Facilities: "",
+    Activities: "",
+    Price_Range: "",
+    Image: null,
+  });
+
+  const placeTypes = [
+    { value: "beach", label: "Beach" },
+    { value: "mountain", label: "Mountain" },
+    { value: "park", label: "Park" },
+    { value: "lake", label: "Lake" },
+    { value: "waterfall", label: "Waterfall" },
+    { value: "viewpoint", label: "Viewpoint" },
+    { value: "camping", label: "Camping Site" },
+    { value: "historical", label: "Historical Site" },
+    { value: "museum", label: "Museum" },
+    { value: "restaurant", label: "Restaurant" },
+    { value: "cafe", label: "Café" },
+    { value: "hotel", label: "Hotel" },
+  ];
+
+  const timeSlots = [
+    { value: "morning", label: "Morning (6 AM - 12 PM)" },
+    { value: "afternoon", label: "Afternoon (12 PM - 4 PM)" },
+    { value: "evening", label: "Evening (4 PM - 8 PM)" },
+    { value: "night", label: "Night (8 PM - 6 AM)" },
+    { value: "allDay", label: "All Day" },
+  ];
+
+  const handleImageUpload = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      setImage(file);
-      const reader = new FileReader();
-      reader.onload = () => setImagePreview(reader.result);
-      reader.readAsDataURL(file);
-    }
+    setFormData((prev) => ({
+      ...prev,
+      Image: URL.createObjectURL(file),
+    }));
   };
 
-  const handleSliderChange = (setter) => (event, newValue) => {
-    setter(newValue);
+  const addhandler = () => {
+    axios
+      .post("http://localhost:4008/a", formData)
+      .then((res) => {
+        alert(res.data.message);
+        navigate("/Admin"); // Navigate to admin page on success
+      })
+      .catch((err) => {
+        console.error("Error adding place:", err);
+      });
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-        // background: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://source.unsplash.com/1600x900/?nature,scenery)',
-        backgroundSize: 'cover',
-        padding: 3,
-      }}
-    >
-      <Box
-        sx={{
-          backdropFilter: 'blur(10px)',
-          backgroundColor: 'rgba(255, 255, 255, 0.2)',
-          borderRadius: 4,
-          boxShadow: 3,
-          padding: 4,
-          width: '100%',
-          maxWidth: 900,
-        }}
-      >
-        <Typography
-          variant="h4"
-          textAlign="center"
-          gutterBottom
-          sx={{ fontWeight: 'bold', color: '#fff', marginBottom: 4 }}
-        >
-          Add a New Place
-        </Typography>
-
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Place Name"
-              variant="outlined"
-              fullWidth
-              sx={{
-                backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                borderRadius: 1,
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Place Location"
-              variant="outlined"
-              fullWidth
-              sx={{
-                backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                borderRadius: 1,
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <TextField
-              label="Location Description"
-              variant="outlined"
-              multiline
-              rows={4}
-              fullWidth
-              sx={{
-                backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                borderRadius: 1,
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <Typography component="legend" sx={{ fontWeight: 'bold', marginBottom: 1, color: '#fff' }}>
-              Upload Image
+    <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+      <Card sx={{ maxWidth: { xs: "100%", md: 900 }, margin: "0 auto", boxShadow: { xs: 0, md: 2 } }}>
+        <CardHeader
+          title={
+            <Typography variant={isMobile ? "h5" : "h4"} align="center" gutterBottom sx={{ fontWeight: "bold" }}>
+              Add a New Place
             </Typography>
-            <Button
-              variant="contained"
-              component="label"
-              sx={{
-                backgroundColor: '#1976d2',
-                color: '#fff',
-                '&:hover': { backgroundColor: '#155fa0' },
-              }}
-            >
-              Choose Image
-              <input
-                type="file"
-                accept="image/*"
-                hidden
-                onChange={handleImageChange}
-              />
-            </Button>
-            {imagePreview && (
-              <Box
-                sx={{
-                  marginTop: 2,
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  style={{
-                    maxWidth: '100%',
-                    maxHeight: 200,
-                    borderRadius: 4,
-                    border: '1px solid #ddd',
-                  }}
+          }
+        />
+        <CardContent>
+          <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            sx={{ display: "flex", flexDirection: "column", gap: { xs: 2, md: 3 } }}
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  label="Place Name"
+                  name="Place_Name"
+                  fullWidth
+                  value={formData.Place_Name}
+                  onChange={(e) => setFormData({ ...formData, Place_Name: e.target.value })}
+                  size={isMobile ? "small" : "medium"}
                 />
-              </Box>
-            )}
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <Typography sx={{ fontWeight: 'bold', color: '#fff', marginBottom: 1 }}>
-              Adventure Level
-            </Typography>
-            <Slider
-              value={adventureLevel}
-              onChange={handleSliderChange(setAdventureLevel)}
-              step={1}
-              marks
-              min={1}
-              max={10}
-              sx={{ color: '#66bb6a' }}
-            />
-            <Box display="flex" justifyContent="space-between" sx={{ color: '#fff', fontSize: '0.9rem' }}>
-              <span>1</span>
-              <span>10</span>
-            </Box>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <Typography sx={{ fontWeight: 'bold', color: '#fff', marginBottom: 1 }}>
-              Family Friendly
-            </Typography>
-            <Slider
-              value={familyFriendly}
-              onChange={handleSliderChange(setFamilyFriendly)}
-              step={1}
-              marks
-              min={1}
-              max={10}
-              sx={{ color: '#66bb6a' }}
-            />
-            <Box display="flex" justifyContent="space-between" sx={{ color: '#fff', fontSize: '0.9rem' }}>
-              <span>1</span>
-              <span>10</span>
-            </Box>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <Typography sx={{ fontWeight: 'bold', color: '#fff', marginBottom: 1 }}>
-              Risk Level
-            </Typography>
-            <Slider
-              value={riskLevel}
-              onChange={handleSliderChange(setRiskLevel)}
-              step={1}
-              marks
-              min={1}
-              max={10}
-              sx={{ color: '#66bb6a' }}
-            />
-            <Box display="flex" justifyContent="space-between" sx={{ color: '#fff', fontSize: '0.9rem' }}>
-              <span>1</span>
-              <span>10</span>
-            </Box>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth sx={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 1 }}>
-              <InputLabel
-                id="best-time-label"
-                sx={{
-                  fontWeight: 'bold',
-                  color: '#333',
-                  marginBottom: 1,
-                  fontSize: '1.2rem',
-                  position: 'relative',
-                  top: '-8px',
-                }}
-              >
-                Best Time
-              </InputLabel>
-              <Select
-                labelId="best-time-label"
-                value={bestTime}
-                onChange={(event) => setBestTime(event.target.value)}
-                displayEmpty
-                sx={{
-                  '.MuiSelect-outlined': {
-                    backgroundColor: '#fff',
-                    borderRadius: '8px',
-                  },
-                  '.MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#1976d2',
-                  },
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#155fa0',
-                  },
-                }}
-              >
-                <MenuItem value="" disabled>
-                  Select Best Time
-                </MenuItem>
-                <MenuItem value="Morning">Morning</MenuItem>
-                <MenuItem value="Noon">Noon</MenuItem>
-                <MenuItem value="Evening">Evening</MenuItem>
-                <MenuItem value="Any Time">Any Time</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={12}>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  select
+                  label="Place Type"
+                  name="Place_Type"
+                  fullWidth
+                  value={formData.Place_Type}
+                  onChange={(e) => setFormData({ ...formData, Place_Type: e.target.value })}
+                  size={isMobile ? "small" : "medium"}
+                >
+                  {placeTypes.map((type) => (
+                    <MenuItem key={type.value} value={type.value}>
+                      {type.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  label="Description"
+                  name="Place_Description"
+                  fullWidth
+                  multiline
+                  rows={4}
+                  value={formData.Place_Description}
+                  onChange={(e) => setFormData({ ...formData, Place_Description: e.target.value })}
+                  size={isMobile ? "small" : "medium"}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  select
+                  label="Best Time to Visit"
+                  name="Best_Time"
+                  fullWidth
+                  value={formData.Best_Time}
+                  onChange={(e) => setFormData({ ...formData, Best_Time: e.target.value })}
+                  size={isMobile ? "small" : "medium"}
+                >
+                  {timeSlots.map((time) => (
+                    <MenuItem key={time.value} value={time.value}>
+                      {time.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  label="Entry Fee"
+                  name="Price_Range"
+                  fullWidth
+                  value={formData.Price_Range}
+                  onChange={(e) => setFormData({ ...formData, Price_Range: e.target.value })}
+                  placeholder="e.g., $$ or 20-50 USD"
+                  size={isMobile ? "small" : "medium"}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
+                  <Button variant="contained" component="label" startIcon={<AddPhotoAlternateIcon />}>
+                    Upload Image
+                    <input type="file" hidden accept="image/*" onChange={handleImageUpload} />
+                  </Button>
+                  {formData.Image && (
+                    <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+                      <img
+                        src={formData.Image}
+                        alt="Preview"
+                        style={{
+                          maxHeight: 200,
+                          maxWidth: "100%",
+                          objectFit: "contain",
+                          borderRadius: "8px",
+                        }}
+                      />
+                    </Box>
+                  )}
+                </Box>
+              </Grid>
+            </Grid>
             <Button
               variant="contained"
-              fullWidth
+              color="primary"
+              onClick={addhandler}
               sx={{
-                padding: 1.5,
-                backgroundColor: '#1976d2',
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                color: '#fff',
-                '&:hover': { backgroundColor: '#155fa0' },
+                mt: 3,
+                py: { xs: 1.5, md: 2 },
+                alignSelf: "center",
               }}
             >
-              Submit
+              Submit Place
             </Button>
-          </Grid>
-        </Grid>
-      </Box>
-    </Box>
+          </Box>
+        </CardContent>
+      </Card>
+    </Container>
   );
 };
 
-export default AddSp;
+export default AddPlace;
