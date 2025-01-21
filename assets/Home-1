@@ -2,15 +2,24 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Masonry from 'react-masonry-css';
 import Typography from '@mui/material/Typography';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
 
 const Home = () => {
   const [home, setHome] = useState([]);
+  const [selectedPlace, setSelectedPlace] = useState(null); 
+  const [open, setOpen] = useState(false); 
 
   useEffect(() => {
     axios
       .get('http://localhost:4008/v')
       .then((response) => {
-        const acceptedPlaces = response.data.filter((place) => place.status === "accepted");
+        const acceptedPlaces = response.data.filter((place) => place.status === 'accepted');
         setHome(acceptedPlaces);
       })
       .catch((error) => console.error('Error fetching data:', error));
@@ -26,11 +35,30 @@ const Home = () => {
   const styles = {
     container: { padding: '20px', minHeight: '100vh' },
     heading: { textAlign: 'center', marginBottom: '20px', fontSize: '2.5rem', fontWeight: 'bold' },
-    card: { borderRadius: '15px', backgroundColor: '#fff', boxShadow: '0 4px 10px rgba(0,0,0,0.1)', marginBottom: '15px' },
+    card: { 
+      borderRadius: '15px', 
+      backgroundColor: '#fff', 
+      boxShadow: '0 4px 10px rgba(0,0,0,0.1)', 
+      marginBottom: '15px', 
+      cursor: 'pointer', 
+      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+      '&:hover': { transform: 'scale(1.05)', boxShadow: '0 8px 20px rgba(0,0,0,0.2)' },
+    },
     image: { width: '100%', height: '200px', objectFit: 'cover', borderRadius: '15px 15px 0 0' },
     content: { padding: '15px', textAlign: 'center' },
     title: { fontSize: '1.2rem', color: '#1976d2', fontWeight: 'bold', marginBottom: '10px' },
     description: { fontSize: '0.9rem', color: '#555' },
+    modalContent: { padding: '20px' },
+  };
+
+  const handleCardClick = (place) => {
+    setSelectedPlace(place);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedPlace(null);
   };
 
   return (
@@ -38,15 +66,73 @@ const Home = () => {
       <h1 style={styles.heading}>Let&apos;s Go</h1>
       <Masonry breakpointCols={breakpointColumnsObj} className="masonry-grid" columnClassName="masonry-grid-column">
         {home.map((place) => (
-          <div key={place._id} style={styles.card}>
+          <div 
+            key={place._id} 
+            style={styles.card} 
+            onClick={() => handleCardClick(place)}
+          >
             <img src={place.Image} alt={place.Place_Name} style={styles.image} />
             <div style={styles.content}>
               <Typography style={styles.title}>{place.Place_Name}</Typography>
-              <p style={styles.description}>{place.Place_Description}</p>
+              <p style={styles.description}>{place.Place_Description.slice(0, 100)}...</p>
             </div>
           </div>
         ))}
       </Masonry>
+
+      {/* Modal for Full Details */}
+      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+  {selectedPlace && (
+    <>
+      <DialogTitle sx={{ textAlign: "center", fontWeight: "bold", color: "#1976d2" }}>
+        {selectedPlace.Place_Name}
+      </DialogTitle>
+      <DialogContent>
+        <Box sx={styles.modalContent}>
+          <img
+            src={selectedPlace.Image}
+            alt={selectedPlace.Place_Name}
+            style={{ width: "100%", height: "250px", objectFit: "cover", borderRadius: "8px", marginBottom: "15px" }}
+          />
+          <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+            <strong>Description:</strong> {selectedPlace.Place_Description}
+          </Typography>
+          <Divider sx={{ my: 2 }} />
+          <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+            <strong>Type:</strong> {selectedPlace.Place_Type}
+          </Typography>
+          <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+            <strong>Best Time to Visit:</strong> {selectedPlace.Best_Time}
+          </Typography>
+          <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+            <strong>Entry Fee:</strong> {selectedPlace.Price_Range}
+          </Typography>
+          <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+            <strong>Map Link:</strong>{" "}
+            {selectedPlace.Place_Link ? (
+              <a
+                href={selectedPlace.Place_Link}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "#1976d2", textDecoration: "underline" }}
+              >
+                Open on Google Maps
+              </a>
+            ) : (
+              "No Link Available"
+            )}
+          </Typography>
+        </Box>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} variant="contained" color="primary">
+          Close
+        </Button>
+      </DialogActions>
+    </>
+  )}
+</Dialog>
+
     </div>
   );
 };
